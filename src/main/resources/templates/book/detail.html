@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title th:text = "${book.title}"></title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+  <th:block th:replace="layout :: header"></th:block>
+  <div layout:fragment="content" class="container content">
+    <!-- content -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <a class="btn btn-success" href="/book/list" style="margin-bottom: 20px;">Trở về</a>
+        </div>
+        <div class="row gx-5">
+          <aside class="col-lg-6">
+            <div class="border rounded-4 mb-3 d-flex justify-content-center">
+              <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
+                   th:src="@{${book.image}}"
+              />
+            </div>
+          </aside>
+          <main class="col-lg-6">
+            <div class="ps-lg-3">
+              <h4 class="title text-dark" th:text="${book.title}"><br />
+              </h4>
+            </div>
+            <div class="mb-3">
+              <span class="h5" th:text = "${book.price}">đ</span>
+            </div>
+            <p th:text = "${book.intro}">
+            </p>
+            <div class="row">
+              <dt class="col-3">Thể loại:</dt>
+              <dd class="col-9" th:text = "${book.category.name}"></dd>
+              <dt class="col-3">Tác giả</dt>
+              <dd class="col-9" th:text = "${book.author}"></dd>
+              <dt class="col-3">Năm suất bản</dt>
+              <dd class="col-9" th:text = "${book.year}"></dd>
+              <dt class="col-3">Nhà suất bản</dt>
+              <dd class="col-9" th:text = "${book.company}"></dd>
+            </div>
+            <hr />
+            <form class="row mb-4 form_detail" th:action="@{/cart/add/{id}(id=${book.id})}" method="post">
+              <div class="col-md-4 col-6 form-group">
+                <label for="quanlity">Số lượng</label>
+                <input id="quanlity" type="number" min="1" th:max="${book.quantity}" value="1" name="quantity">
+              </div>
+              <div class="col-md-4 col-6 form-group">
+                <button th:if="${book.quantity == 0}" class="btn btn-secondary" disabled>Hết hàng</button>
+                <button th:if="${book.quantity != 0}" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Thêm vào giỏ hàng</button>
+              </div>
+            </form>
+        </main>
+        </div>
+      </div>
+    </section>
+    <!-- content -->
+    <section class="bg-light border-top py-4">
+      <div class="container">
+        <div class="row gx-4">
+          <div class="col-lg-8 mb-4">
+            <div class="border rounded-2 px-3 py-2 bg-white">
+              <!-- Pills navs -->
+              <div class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                <a class="nav-link d-flex align-items-center justify-content-center w-100 active">Thông tin</a>
+              </div>
+              <!-- Pills navs -->
+
+              <!-- Pills content -->
+              <div class="tab-content" id="ex1-content">
+                <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+                  <p th:text = "${book.content}">
+                  </p>
+                  <table class="table border mt-3 mb-2">
+                    <tr>
+                      <th class="py-2">Kích thước:</th>
+                      <td class="py-2" th:text = "${book.size}"></td>
+                    </tr>
+                    <tr>
+                      <th class="py-2">Loại bìa:</th>
+                      <td class="py-2" th:text = "${book.type}"></td>
+                    </tr>
+                    <tr>
+                      <th class="py-2">Số trang:</th>
+                      <td class="py-2" th:text = "${book.pages}"></td>
+                    </tr>
+                    <tr>
+                      <th class="py-2">Số sách còn trong kho:</th>
+                      <td class="py-2" th:text = "${book.quantity}"></td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <!-- Pills content -->
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="px-0 border rounded-2 shadow-0">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Sách cùng thể loại</h5>
+                  <!--Other product card-->
+                  <div class="d-flex mb-3" th:each="book:${listBookSame}">
+                    <a th:href="@{/book/detail/{id}(id=${book.id})}" class="me-3">
+                      <img th:src="@{${book.image}}" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
+                    </a>
+                    <div class="info">
+                      <a th:href="@{/book/detail/{id}(id=${book.id})}" th:text = "${book.title}" class="nav-link mb-1">
+                      </a>
+                      <strong class="text-dark" style="margin-left: 20px;" th:text = "${book.price}"></strong>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

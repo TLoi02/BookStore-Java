@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Tài khoản</title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+    <th:block th:replace="layout :: header"></th:block>
+    <div class="container content">
+      <section>
+        <div class="container py-5">
+          <div class="row">
+            <!--Content child-->
+            <div class="col-lg-4">
+              <div class="card mb-4">
+                <div class="card-body text-center">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="avatar"
+                       class="rounded-circle img-fluid" style="width: 150px;">
+                  <h5 class="my-3" sec:authentication="name"></h5>
+                  <p class="text-muted mb-1" sec:authorize="hasAuthority('USER')">Tài khoản khách hàng</p>
+                  <p class="text-muted mb-1" sec:authorize="hasAuthority('ADMIN')">Tài khoản quản trị viên</p>
+                  <div class="d-flex justify-content-center mb-2">
+                    <a class="btn btn-primary" href="/account/update">Cập nhật thông tin</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Content-->
+            <div class="col-lg-8">
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Họ và tên</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0" th:text = "${user.name}"></p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0" th:text = "${user.email}"></p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Điện thoại</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0" th:text = "${user.phone}"></p>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <p class="mb-0">Địa chỉ</p>
+                    </div>
+                    <div class="col-sm-9">
+                      <p class="text-muted mb-0" th:text = "${user.address}"></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--Orders-->
+          <div class="row">
+            <div style="width: 100%; text-align: center;">
+              <h4>
+                Đơn hàng đã đặt
+              </h4>
+            </div>
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">Mã đơn hàng</th>
+                <th scope="col">Ngày đặt</th>
+                <th scope="col">Thành tiền</th>
+                <th scope="col">Trạng thái đơn hàng</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="order:${listOrder}">
+                <th scope="row" th:text = "${order.id}"></th>
+                <td th:text = "${order.order_date}">
+                </td>
+                <td th:text = "${order.totalAmount}">
+                </td>
+                <td th:text="${order.type.name}">
+                </td>
+                <td>
+                  <a class="btn btn-success" th:href="@{/account/order/{id}(id=${order.id})}">Chi tiết</a>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+    <th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

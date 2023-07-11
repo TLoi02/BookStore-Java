@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title th:text = "${titlePage}"></title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+  <th:block th:replace="layout :: header"></th:block>
+  <!--Content empty product-->
+  <div class="text-center edit-account" th:if="${type == 'not'}">
+    Chúng tôi không có sản phẩm bạn cần tìm.
+    </p>
+    <a href="/home" class="btn btn-primary">Trở về trang chủ</a>
+  </div>
+
+  <!--Content have product-->
+  <div layout:fragment="content" class="container content" th:if="${type == 'have'}">
+    <div class="row" style="background-color: #3333; display: flex; flex-direction: column; align-items: center;">
+      <div class="product__title">
+        <h4>Sách theo thể loại</h4>
+      </div>
+      <ul style="list-style: none; display: flex;">
+        <li>
+          <a class="btn btn-primary" href="/book/list" style="margin-right: 5px;">Tất cả sách</a>
+        </li>
+        <li th:each="category:${listCategory}">
+          <a class="btn btn-success"th:href="@{/book/list/category/{id}(id=${category.id})}"
+             th:text = "${category.name}" style="margin-right: 5px;"></a>
+        </li>
+      </ul>
+    </div>
+    <div class="product__title">
+      <h4 th:text = "${titlePage}"></h4>
+    </div>
+    <div class="row">
+      <!--Product content-->
+      <!--Product content item-->
+      <div class="col-lg-3 col-md-6 col-sm-12 product__content" th:each="book:${listBook}">
+        <div class="card product__item">
+          <a class="product__itemt-link" th:href="@{/book/detail/{id}(id=${book.id})}">
+            <img th:src="@{${book.image}}"
+                 class="card-img-top" alt="Book_image"
+                  style="height: 300px; object-fit: cover;"
+            />
+            <div class="card-body">
+              <h5 class="card-title book_title" th:text = "${book.title}"></h5>
+              <p class="card-text card__product-desc" th:text = "${book.intro}">
+              </p>
+            </div>
+          </a>
+          <h5 class="price" th:text = "${book.price}"></h5>
+          <a aria-disabled="true" class="btn btn-secondary" th:if="${book.quantity == 0}" >Hết hàng</a>
+          <a th:if="${book.quantity != 0}" class="btn btn-outline-primary" th:href="@{/cart/add/{id}(id=${book.id})}">Thêm vào giỏ hàng</a>
+        </div>
+      </div>
+    </div>
+    <!--Paging-->
+    <div class="row paging__cotent">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center" >
+          <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
+            <a th:if="${typePaging == 'all'}" class="page-link" th:href="@{'/book/list/' + ${i}}">[[${i}]]</a>
+            <a th:if="${typePaging == 'one'}" class="page-link" th:href="@{'/book/list/category/' + ${idPaging} + '/' + ${i}}">[[${i}]]</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

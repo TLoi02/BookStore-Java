@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title th:text = "${blog.title}"></title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+  <th:block th:replace="layout :: header"></th:block>
+  <div layout:fragment="content" class="container content">
+    <!-- content -->
+    <section class="py-5">
+      <div class="container">
+        <div class="row">
+          <a class="btn btn-success" href="/blog/list" style="margin-bottom: 20px;">Trở về</a>
+        </div>
+        <div class="row gx-5">
+          <aside class="col-lg-6">
+            <div class="border rounded-4 mb-3 d-flex justify-content-center">
+              <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
+                   th:src="@{${blog.image}}"
+              />
+            </div>
+          </aside>
+          <main class="col-lg-6">
+            <div class="ps-lg-3">
+              <h4 class="title text-dark" th:text="${blog.title}">
+                <br />
+              </h4>
+            </div>
+            <div class="mb-3">
+              <span th:text="${blog.datepost}"></span>
+            </div>
+            <p class="blog__text" th:text="${blog.intro}">
+            </p>
+            <p class="blog__text" th:text="${blog.content}">
+            </p>
+          </main>
+        </div>
+      </div>
+    </section>
+  </div>
+  <th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

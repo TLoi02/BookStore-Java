@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Tin tức</title>
+    <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+    <th:block th:replace="layout :: header"></th:block>
+    <div layout:fragment="content" class="container content">
+        <div class="blog__title">
+            <h4>Tin tức</h4>
+        </div>
+        <div class="row g-4">
+            <!--Blog item-->
+            <div class="col-lg-3 col-md-6 col-sm-12" th:each="blog:${listBlog}">
+                <div class="card product__item">
+                    <img th:src="@{${blog.image}}"
+                            class="card-img-top"
+                         style="height: 300px; object-fit: cover;"
+                         alt="Blog_image" />
+                    <div class="card-body">
+                        <h5 class="card-title book_title" th:text = "${blog.title}"></h5>
+                        <p class="card-text blog__desc" th:text = "${blog.intro}">
+                        </p>
+                    </div>
+                    <a class="btn btn-outline-primary" th:href="@{/blog/detail/{id}(id=${blog.id})}">Đọc thêm</a>
+                </div>
+            </div>
+        </div>
+        <!--Paging-->
+        <div class="row paging__cotent">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center" >
+                    <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}">
+                        <a class="page-link" th:href="@{'/blog/list/' + ${i}}">[[${i}]]</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

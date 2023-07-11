@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Tuyển dụng</title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+  <th:block th:replace="layout :: header"></th:block>
+  <div layout:fragment="content" class="container content">
+    <div class="jobs__title">
+      <h4>Các vị trí đang tuyển dụng</h4>
+    </div>
+
+    <!--Content for jobs-->
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6 col-sm-12" th:each="job:${listJob}">
+        <div class="card" style="height: 100%;">
+          <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/041.webp" class="card-img-top"
+               alt="Hollywood Sign on The Hill" />
+          <div class="card-body">
+            <h5 class="card-title" th:text = "${job.title}"></h5>
+            <p class="card-text" th:text = "${job.content}">
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="jobs__form-title">
+      <h4>Gửi hồ sơ ứng tuyển</h4>
+    </div>
+    <!--Form apply-->
+    <form class="jobs__form" th:action="@{/tuyendung/nopdon}" th:object="${apply}" method="post" enctype = "multipart/form-data">
+      <!-- Text input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="name">Họ và tên</label>
+        <input type="text" id="name" class="form-control" th:field="*{name}"/>
+        <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+      </div>
+
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="email">Email</label>
+        <input type="text" id="email" class="form-control" th:field="*{email}"/>
+        <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+      </div>
+
+      <!-- Number input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="phone">Điện thoại</label>
+        <input type="text" id="phone" class="form-control" th:field="*{phone}"/>
+        <span class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+      </div>
+
+      <!--Job apply-->
+      <div class="form-outline mb-4">
+          <label class="form-label" for="job_id">Vị trí ứng tuyển:</label>
+          <select class="form_control" id="job_id" th:field="*{job.id}">
+            <option value="">--Chọn vị trí--</option>
+            <option th:each="job:${listJob}" th:value="${job.id}"
+                    th:text="${job.title}"></option>
+          </select>
+      </div>
+
+      <div class="form-outline mb-4">
+        <label class="form-label" for="image">Hồ sơ ứng tuyển</label>
+        <input class="form-control" type="file" id="image" name="imageCV" accept="image/png, image/jpeg">
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-outline-primary btn-block mb-4">Ứng tuyển</button>
+    </form>
+  </div>
+  <th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>
