@@ -14,7 +14,7 @@
 	<name>demo</name>
 	<description>Thuc Hanh Lab 04</description>
 	<properties>
-		<java.version>20</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
