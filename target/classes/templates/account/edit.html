@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập nhật tài khoản</title>
+    <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+    <th:block th:replace="layout :: header"></th:block>
+    <div class="container edit-account">
+        <div style="margin: 10px 0;">
+            <h3>Cập nhật tài khoản</h3>
+        </div>
+        <div class="row">
+            <!--Form edit-->
+            <form th:action="@{/account/update/{id}(id=${user.user_id})}" th:object="${user}" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Email" required th:field="*{email}">
+                        <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="username">Tên đăng nhập</label>
+                        <input type="text" class="form-control" id="username" placeholder="Tên đăng nhập" required th:field="*{username}">
+                        <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Họ và tên</label>
+                    <input type="text" class="form-control" id="name" placeholder="Nhập họ và tên" th:field="*{name}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Điện thoại </label>
+                    <input type="text" class="form-control" id="phone" placeholder="Nhập số điện thoại" th:field="*{phone}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+                </div>
+                <div class="form-group">
+                    <label for="address">Địa chỉ </label>
+                    <input type="text" class="form-control" id="address" placeholder="Địa chỉ nhận hàng" th:field="*{address}">
+                    <span class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></span>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <input type="submit" class="btn btn-success" value="Cập nhật">
+                </div>
+            </form>
+        </div>
+    </div>
+    <th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

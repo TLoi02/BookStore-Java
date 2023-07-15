@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Store</title>
+    <link rel="icon" th:href="@{/images/logo.png}" type="image/png">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/swiper-bundle.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<header th:fragment="header">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="/home">
+                <img src="/images/logo.png" style="width: 50px; height: 50px;" alt="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse header__nav" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/book/list">Sách</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/blog/list">Tin tức</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/tuyendung">Tuyển dụng</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <form th:action="@{/book/search}" method="post" class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Bạn cần tìm gì?" aria-label="Search">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Tìm kiếm</button>
+                    </form>
+                    <li class="nav-item" style="display: flex;" sec:authorize="!isAuthenticated()">
+                        <a sec:authorize="isAnonymous()" th:href="@{/login}" class="nav-link">Đăng nhập</a>
+                        <a sec:authorize="isAnonymous()" th:href="@{/register}" class="nav-link">Đăng ký</a>
+                    </li>
+                    <!--Avatar active when login successs-->
+                    <li class="nav-item" style="display: flex;" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" href="/account"  sec:authorize="hasAuthority('USER')">Tài khoản</a>
+                        <a class="btn btn-success" style="margin-left: 20px;" href="/admin/dashboard" sec:authorize="hasAuthority('ADMIN')">Trang quản trị</a>
+                        <a class="nav-link" th:href="@{/logout}">Đăng xuất</a>
+                        <a class="nav-link" href="/cart" sec:authorize="hasAuthority('USER')">Giỏ hàng</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</header>
+<div th:insert="~{::${content}}">
+
+</div>
+<footer class="py-3 my-4" th:fragment="footer">
+    <div class="container">
+        <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="/home" class="nav-link px-2 text-muted">Trang chủ</a></li>
+            <li class="nav-item"><a href="/blog/list" class="nav-link px-2 text-muted">Tin tức</a></li>
+            <li class="nav-item"><a href="/tuyendung" class="nav-link px-2 text-muted">Tuyển dụng</a></li>
+        </ul>
+        <p class="text-center text-muted">© 2023 Coding by VoThuanLoi</p>
+    </div>
+    <script th:src="@{/js/jquery-3.3.1.slim.min}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/swiper-bundle.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+</footer>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Nộp đơn thành công</title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout :: header"></th:block>
+<div layout:fragment="content" class="container content account__form">
+  <div class="py-6 py-lg-12">
+    <div class="container">
+      <div class="row">
+        <div class="offset-lg-3 col-lg-6 col-md-12 col-12 text-center">
+          <img src="https://freepngimg.com/save/18343-success-png-image/1200x1200" width="100px" height="100px" alt="" class="img-fluid mb-4">
+          <h2>Hồ sơ của bạn đã được gửi đi</h2>
+          <p class="mb-4">
+            Chúng tôi sẽ xem xét và thông báo về tình trạng hồ sơ của bạn trong thời gian sớm nhất. Cảm ơn bạn đã ứng tuyển với chúng tôi!
+          </p>
+          <a href="/home" class="btn btn-outline-primary">Trở về trang chủ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

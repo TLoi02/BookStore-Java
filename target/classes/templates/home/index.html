@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang chủ</title>
+  <th:block th:replace="layout :: link-css"></th:block>
+</head>
+<body>
+  <th:block th:replace="layout :: header"></th:block>
+  <div class="container content">
+    <!--Silder-->
+    <div class="row slider">
+      <div class="swiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+          <div class="swiper-slide" th:each="blog1:${listSlide}">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <img src="https://images.unsplash.com/photo-1553484771-371a605b060b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Image blog" class="slider_img">
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="slider__content">
+                  <h3 class="slider__content__title" th:text = "${blog1.title}"></h3>
+                  <a class="btn btn-success" th:href="@{/blog/detail/{id}(id=${blog1.id})}">Tìm hiểu ngay</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+    <!--Option Direct-->
+    <div class="row g-4">
+      <div class="col-lg-6 col-md-6 col-sm-12 option__wrap">
+        <img src="https://www.toponseek.com/blogs/wp-content/uploads/2022/06/viet-blog-3.jpg" alt="image_option" class="option__img">
+        <div class="option__content">
+          <div class="option__content__title">
+            <h1>Tin Tức</h1>
+          </div>
+          <a href="/blog/list" class="btn btn-success">Đọc tin tức</a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6 col-sm-12 option__wrap">
+        <img src="https://media.istockphoto.com/id/1222563369/photo/bookstore-shop-exterior-with-books-and-textbooks-in-showcase.jpg?s=612x612&w=0&k=20&c=nvfvNWLiP6LKfhfTUVYppVRmzlpH8-ujIxk5jOtDcCE=" alt="image_option" class="option__img">
+        <div class="option__content">
+          <div class="option__content__title">
+            <h1>Cửa hàng</h1>
+          </div>
+          <a href="/book/list" class="btn btn-success">Mua sắm</a>
+        </div>
+      </div>
+    </div>
+    <!--Category-->
+    <div class="row">
+      <div class="category__title">
+        <h4>Thể loại sách tiêu biểu</h4>
+      </div>
+      <!--Category item-->
+      <div class="col-lg-3 col-md-6 col-sm-12 category__wrap" th:each="category:${listCategory}">
+        <div class="category__content">
+          <img src="https://i.pinimg.com/736x/3f/27/2f/3f272fe79ac302d58f401d25b74e37e8.jpg" alt="image_category" class="category__content__img">
+          <a th:text = "${category.name}"
+             th:href="@{/book/list/category/{id}(id=${category.id})}"
+             class="btn btn-outline-success" style="margin-top: 10px;">
+          </a>
+        </div>
+      </div>
+
+    </div>
+    <!--New product-->
+    <div class="row">
+      <div class="category__title">
+        <h4>Sách vừa cập nhật</h4>
+      </div>
+      <!--Slider-->
+      <div class="swiper best-seller" style="background: none;">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+          <!-- Slides -->
+          <div class="swiper-slide">
+            <div class="row">
+              <!--Product content-->
+              <!--Product content item-->
+              <div class="col-lg-3 col-md-6 col-sm-12 product__content" th:each="book:${listBookFirst}">
+                <div class="card product__item">
+                  <a class="product__itemt-link" th:href="@{/book/detail/{id}(id=${book.id})}">
+                    <img th:src="@{${book.image}}"
+                         class="card-img-top" alt="Book_image"
+                         style="height: 300px; object-fit: cover;"
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title book_title" th:text = "${book.title}"></h5>
+                      <p class="card-text card__product-desc" th:text = "${book.intro}">
+                      </p>
+                    </div>
+                  </a>
+                  <h5 class="price" th:text = "${book.price}"></h5>
+                  <a aria-disabled="true" class="btn btn-secondary" th:if="${book.quantity == 0}" >Hết hàng</a>
+                  <a th:if="${book.quantity != 0}" class="btn btn-outline-primary" th:href="@{/cart/add/{id}(id=${book.id})}">Thêm vào giỏ hàng</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" th:if="${typeBook == 'have'}">
+            <div class="row" >
+              <!--Product content-->
+              <!--Product content item-->
+              <div class="col-lg-3 col-md-6 col-sm-12 product__content" th:each="book:${listBookSecond}">
+                <div class="card product__item">
+                  <a class="product__itemt-link" th:href="@{/book/detail/{id}(id=${book.id})}">
+                    <img th:src="@{${book.image}}"
+                         class="card-img-top" alt="Book_image"
+                         style="height: 300px; object-fit: cover;"
+                    />
+                    <div class="card-body">
+                      <h5 class="card-title book_title" th:text = "${book.title}"></h5>
+                      <p class="card-text card__product-desc" th:text = "${book.intro}">
+                      </p>
+                    </div>
+                  </a>
+                  <h5 class="price" th:text = "${book.price}"></h5>
+                  <a aria-disabled="true" class="btn btn-secondary" th:if="${book.quantity == 0}" >Hết hàng</a>
+                  <a th:if="${book.quantity != 0}" class="btn btn-outline-primary" th:href="@{/cart/add/{id}(id=${book.id})}">Thêm vào giỏ hàng</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </div>
+    <!--New blog-->
+    <div class="row">
+      <div class="category__title">
+        <h4>Bài đăng gần đây</h4>
+      </div>
+      <div class="row g-4">
+        <!--Blog item-->
+        <div class="col-lg-3 col-md-6 col-sm-12" th:each="blog2:${listLasted}">
+          <div class="card product__item">
+            <img th:src="@{${blog2.image}}"
+                    class="card-img-top"
+                 style="height: 300px; object-fit: cover;"
+                 alt="Blog_image" />
+            <div class="card-body">
+              <h5 class="card-title book_title" th:text = "${blog2.title}"></h5>
+              <p class="card-text blog__desc" th:text = "${blog2.intro}">
+              </p>
+            </div>
+            <a class="btn btn-outline-primary" th:href="@{/blog/detail/{id}(id=${blog2.id})}">Đọc thêm</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <th:block th:replace="layout :: footer"></th:block>
+</body>
+</html>

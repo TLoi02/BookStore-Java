@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Thêm tin tức</title>
+</head>
+<body>
+<div class="container content">
+    <h1 class="dashboard__title">Thêm tin tức</h1>
+    <form th:action="@{/admin/blog/create}" th:object="${blog}" method="post" enctype = "multipart/form-data">
+        <div class="col-6 mb-3">
+            <label class="form-label" for="title">Tên bài:</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}">
+            <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+        </div>
+        <!--Image product-->
+        <div class="col-6 mb-3">
+            <label class="form-label" for="image">Image:</label>
+            <input class="form-control" type="file" id="image" name="imageBlog" accept="image/png, image/jpeg" required>
+        </div>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="intro">Mô tả ngắn:</label>
+            <textarea class="form-control" id="intro" rows="3"  th:field="*{intro}"></textarea>
+            <span class="text-danger" th:if="${#fields.hasErrors('intro')}" th:errors="*{intro}"></span>
+        </div>
+        <div class="col-6 mb-3">
+            <label class="form-label" for="content">Nội dung:</label>
+            <textarea class="form-control" id="content" rows="3"  th:field="*{content}"></textarea>
+            <span class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></span>
+        </div>
+        <input type="submit" class="btn btn-success" value="Thêm">
+    </form>
+    <a class="btn btn-primary" style="margin: 10px 0;" th:href="@{/admin/dashboard}">Trở về trang quản trị</a>
+</div>
+
+
+<script th:src="@{/js/jquery-3.3.1.slim.min}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

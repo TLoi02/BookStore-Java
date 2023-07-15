@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hóa đơn</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+</div>
+    <div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="container mb-5 mt-3">
+                <div class="row d-flex align-items-baseline">
+                    <div class="col-xl-9">
+                        <p style="color: #7e8d9f;font-size: 20px;">Mã hóa đơn >> <strong th:text = "${order.id}"></strong></p>
+                    </div>
+                    <div class="col-xl-3 float-end">
+                        <a class="btn btn-light text-capitalize" style="cursor: pointer;" onclick="window.print();">
+                            In hóa đơn
+                        </a>
+                    </div>
+                    <hr>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <p class="text-muted">Thông tin người đặt</p>
+                            <ul class="list-unstyled">
+                                <li  class="text-muted">
+                                    Tên khách hàng:
+                                    <span th:text = "${user.name}"></span>.
+                                </li>
+                                <li  class="text-muted">
+                                    Điện thoại:
+                                    <span th:text = "${user.phone}"></span>.
+                                </li>
+                                <li  class="text-muted">
+                                    Địa chỉ:
+                                    <span th:text = "${user.address}"></span>.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xl-4">
+                            <p class="text-muted">Thông tin đơn hàng</p>
+                            <ul class="list-unstyled">
+                                <li  class="text-muted">
+                                    Mã hóa đơn:
+                                    <span th:text = "${order.id}"></span>.
+                                </li>
+                                <li  class="text-muted">
+                                    Ngày đặt:
+                                    <span th:text = "${order.order_date}"></span>.
+                                </li>
+                                <li class="text-muted">
+                            <span class="me-1 fw-bold">Tình trạng đơn hàng:
+                                 </span>
+                                    <span class="badge bg-warning text-black fw-bold" th:text = "${order.type.name}">
+                                </span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row my-2 mx-1 justify-content-center">
+                        <table class="table table-striped table-borderless">
+                            <thead style="background-color:#84B0CA ;" class="text-white">
+                            <tr>
+                                <th scope="col">Mã sản phẩm</th>
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Số lượng</th>
+                                <th scope="col">Giá bán</th>
+                                <th scope="col">Thành tiền</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="book:${listOrderDetail}">
+                                <th scope="row" th:text = "${book.id}"></th>
+                                <td th:text = "${book.title}"></td>
+                                <td th:text = "${book.quantity}"></td>
+                                <td th:text = "${book.price}"></td>
+                                <td th:text = "${book.getAmount()}"></td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <!--Content for note of order-->
+                        </div>
+                        <div class="col-xl-3">
+                            <ul class="list-unstyled">
+                                <li class="text-muted ms-3">
+                                    <span class="text-black me-4">Sản phẩm: </span>
+                                    <span th:text = "${order.totalAmount}"></span>.
+                                </li>
+                                <li class="text-muted ms-3">
+                                    <span class="text-black me-4">Vận chuyển: </span>
+                                    <span>0</span>.
+                                </li>
+                            </ul>
+                            <p class="text-black float-start">
+                                <span class="text-black me-3"> Tổng tiền
+                                </span>
+                                <span th:text = "${order.totalAmount}">
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xl-10">
+                            <p>Cảm ơn bạn đã mua hàng</p>
+                        </div>
+                        <div class="col-xl-2">
+                            <a th:if="${pageType == 'admin'}" class="btn btn-outline-primary" href="/admin/dashboard">Trang quản trị</a>
+                            <a th:if="${pageType == 'user'}" class="btn btn-outline-primary" href="/home">Trang chủ</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script th:src="@{/js/jquery-3.3.1.slim.min}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang quản trị</title>
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="margin-top: 10px;">
+            <a class="btn btn-success" href="/home" style="margin-right: 20px;">Trang chủ</a>
+            <a class="btn btn-danger" href="/logout">Đăng xuất</a>
+        </div>
+        <div class="dashboard__title">
+            <h4>Trang quản trị</h4>
+        </div>
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tab1">Thể loại</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab2">Sách</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab3">Tin tức</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab4">Việc làm</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab5">Ứng tuyển</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab6">Khách hàng</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab7">Đơn hàng</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab8">Thống kê</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab9">Đơn hàng đã hủy</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <!--Quản lí thể loại-->
+            <div id="tab1" class="tab-pane fade show active">
+                <h3>Quản lí thể loại</h3>
+                <div class="container">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <a href="/admin/category/create" class="btn btn-success">Thêm thể loại</a>
+                    </div>
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên thể loại</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr th:each="category:${listCategory}">
+                                <td th:text = "${category.id}"></td>
+                                <td th:text = "${category.name}"></td>
+                                <td>
+                                    <a class="btn btn-success" th:href="@{/admin/category/edit/{id}(id=${category.id})}">Cập nhật</a>
+                                    <a class="btn btn-danger" th:href="@{/admin/category/delete/{id}(id=${category.id})}" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Quản lí sách-->
+            <div id="tab2" class="tab-pane fade">
+                <div class="container">
+                    <div class="row" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <div>
+                            <h3>Sách theo thể loại</h3>
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center;">
+                            <div th:each="category:${listCategory}" >
+                                <a class="btn btn-success" th:text = "${category.name}"
+                                   th:href="@{/admin/book/category/{id}(id=${category.id})}"
+                                   style="margin: 0 10px;"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Quản lí sách</h3>
+                <div class="container">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <a href="/admin/book/create" class="btn btn-success">Thêm sách</a>
+                        <a class="btn btn-success" href="/admin/dashboard" style="margin-left: 10px;">Tất cả sách</a>
+                    </div>
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên sách</th>
+                                <th>Tên tác giả</th>
+                                <th>Giá</th>
+                                <th>Ảnh</th>
+                                <th>Năm suất bản</th>
+                                <th>Nhà suất bản</th>
+                                <th>Kích thước</th>
+                                <th>Loại bìa</th>
+                                <th>Số trang</th>
+                                <th>Số lượng tồn</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr th:each="book:${listBook}">
+                                <td th:text = "${book.id}"></td>
+                                <td th:text = "${book.title}"></td>
+                                <td th:text = "${book.author}"></td>
+                                <td th:text = "${book.price}"></td>
+                                <td >
+                                    <img style="width: 50px; height: 50px; object-fit: cover;" th:src="@{${book.image}}" alt="Book_image" />
+                                </td>
+                                <td th:text = "${book.year}"></td>
+                                <td th:text = "${book.company}"></td>
+                                <td th:text = "${book.size}"></td>
+                                <td th:text = "${book.type}"></td>
+                                <td th:text = "${book.pages}"></td>
+                                <td th:if="${book.quantity == 0}">
+                                    <a class="btn btn-danger">Hết hàng</a>
+                                </td>
+                                <td th:if="${book.quantity != 0}">
+                                    <span th:text = "${book.quantity}">
+                                    </span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-success" th:href="@{/admin/book/edit/{id}(id=${book.id})}">Cập nhật</a>
+                                    <a class="btn btn-danger" th:href="@{/admin/book/delete/{id}(id=${book.id})}" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Quản lí tin tức-->
+            <div id="tab3" class="tab-pane fade">
+                <h3>Quản lí tin tức</h3>
+                <div class="container">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <a href="/admin/blog/create" class="btn btn-success">Thêm tin tức</a>
+                    </div>
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên bài</th>
+                                <th>Ảnh</th>
+                                <th>Ngày đăng</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr th:each="blog:${listBlog}">
+                                <td th:text = "${blog.id}"></td>
+                                <td th:text = "${blog.title}"></td>
+                                <td >
+                                    <img style="width: 50px; height: 50px; object-fit: cover;" th:src="@{${blog.image}}" alt="Blog_image" />
+                                </td>
+                                <td th:text = "${blog.datepost}"></td>
+                                <td>
+                                    <a class="btn btn-success" th:href="@{/admin/blog/edit/{id}(id=${blog.id})}">Cập nhật</a>
+                                    <a class="btn btn-danger" th:href="@{/admin/blog/delete/{id}(id=${blog.id})}" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Quản lí việc làm-->
+            <div id="tab4" class="tab-pane fade">
+                <h3>Quản lí việc làm</h3>
+                <div class="container">
+                    <div class="row" style="margin-bottom: 10px;">
+                        <a href="/admin/job/create" class="btn btn-success">Thêm việc làm</a>
+                    </div>
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên việc làm</th>
+                                <th>Nội dung</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr th:each="job:${listJob}">
+                                <td th:text = "${job.id}"></td>
+                                <td th:text = "${job.title}"></td>
+                                <td th:text = "${job.content}"></td>
+                                <td>
+                                    <a class="btn btn-success" th:href="@{/admin/job/edit/{id}(id=${job.id})}">Cập nhật</a>
+                                    <a class="btn btn-danger" th:href="@{/admin/job/delete/{id}(id=${job.id})}" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Quản lí ứng tuyển-->
+            <div id="tab5" class="tab-pane fade">
+                <h3>Danh sách ứng tuyển</h3>
+                <div class="container">
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Họ và tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Vị trí ứng tuyển</th>
+                                <th>CV</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr th:each="apply:${listApply}">
+                                <td th:text = "${apply.id}"></td>
+                                <td th:text = "${apply.name}"></td>
+                                <td th:text = "${apply.email}"></td>
+                                <td th:text = "${apply.phone}"></td>
+                                <td th:text = "${apply.job.title}"></td>
+                                <td >
+                                    <img style="width: 50px; height: 50px; object-fit: cover;" th:src="@{${apply.image}}" alt="CV_image" />
+                                </td>
+                                <td>
+                                    <a class="btn btn-success" th:href="@{/admin/apply/download/{id}(id=${apply.id})}">Tải CV</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Quản lí khách hàng-->
+            <div id="tab6" class="tab-pane fade">
+                <h3>Danh sách khách hàng</h3>
+                <div class="container">
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Họ và tên</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Địa chỉ</th>
+                            </tr>
+                            <tr th:each="user:${listUser}">
+                                <td th:text = "${user.user_id}"></td>
+                                <td th:text = "${user.username}"></td>
+                                <td th:text = "${user.name}"></td>
+                                <td th:text = "${user.email}"></td>
+                                <td th:text = "${user.phone}"></td>
+                                <td th:text = "${user.address}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Quản lí đơn hàng-->
+            <div id="tab7" class="tab-pane fade">
+                <h3>Danh sách đơn chờ xử lí</h3>
+                <div class="container">
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Tình trạng</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr th:each="order:${listOrder}">
+                                <td th:text = "${order.id}"></td>
+                                <td th:text = "${order.order_date}"></td>
+                                <td th:text = "${order.totalAmount}"></td>
+                                <td th:text = "${order.type.name}"></td>
+                                <td>
+                                    <a class="btn btn-success" style="margin-right: 10px;" th:href="@{/admin/order/detail/{id}(id=${order.id})}">Chi tiết</a>
+                                    <a class="btn btn-success" th:href="@{/admin/order/update/{id}(id=${order.id})}">Cập nhật</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Quản lí thống kê-->
+            <div id="tab8" class="tab-pane fade">
+                <h3>Thống kê</h3>
+                <div class="container">
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Tình trạng</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr th:each="orderSuccess:${listOrderSuccess}">
+                                <td th:text = "${orderSuccess.id}"></td>
+                                <td th:text = "${orderSuccess.order_date}"></td>
+                                <td th:text = "${orderSuccess.totalAmount}"></td>
+                                <td th:text = "${orderSuccess.type.name}"></td>
+                                <td>
+                                    <a class="btn btn-success" style="margin-right: 10px;" th:href="@{/admin/order/detail/{id}(id=${orderSuccess.id})}">Chi tiết</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--Quản lí đơn không thành công-->
+            <div id="tab9" class="tab-pane fade">
+                <h3>Danh sách đơn không thành công</h3>
+                <div class="container">
+                    <!--Table handel-->
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <th>Ngày đặt</th>
+                                <th>Tổng tiền</th>
+                                <th>Tình trạng</th>
+                                <th>Thao tác</th>
+                            </tr>
+                            <tr th:each="orderSuccess:${listOrderUnSuccess}">
+                                <td th:text = "${orderSuccess.id}"></td>
+                                <td th:text = "${orderSuccess.order_date}"></td>
+                                <td th:text = "${orderSuccess.totalAmount}"></td>
+                                <td th:text = "${orderSuccess.type.name}"></td>
+                                <td>
+                                    <a class="btn btn-success" style="margin-right: 10px;" th:href="@{/admin/order/detail/{id}(id=${orderSuccess.id})}">Chi tiết</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+      // Get all tab links
+      var tabLinks = document.querySelectorAll('.nav-link');
+
+      // Get tab content divs
+      var tabContents = document.querySelectorAll('.tab-pane');
+
+      // Function to handle tab switching
+      function switchTab(event) {
+        event.preventDefault();
+
+        // Remove the 'active' class from all tab links and tab content divs
+        tabLinks.forEach(function (link) {
+          link.classList.remove('active');
+        });
+
+        tabContents.forEach(function (content) {
+          content.classList.remove('show', 'active');
+        });
+
+        // Add the 'active' class to the clicked tab link and corresponding tab content div
+        var targetTab = event.target.getAttribute('href');
+        event.target.classList.add('active');
+        document.querySelector(targetTab).classList.add('show', 'active');
+      }
+
+      // Add click event listeners to tab links
+      tabLinks.forEach(function (link) {
+        link.addEventListener('click', switchTab);
+      });
+    </script>
+
+</body>
+</html>

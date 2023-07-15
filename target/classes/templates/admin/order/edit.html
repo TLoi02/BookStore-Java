@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link th:fragment="link-css" rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Cập nhật đơn hàng</title>
+</head>
+<body>
+<div class="container content">
+    <h1 class="dashboard__title">Cập nhật đơn hàng</h1>
+    <form th:action="@{/admin/order/update/{id}(id=${order.id})}" th:object="${order}" method="post" class="form" enctype = "multipart/form-data">
+        <div class="col-6 mb-3">
+            <label class="form-label" for="type_id">Tình trạng đơn hàng:</label>
+            <select class="form_control" id="type_id" th:field="*{type.id}">
+                <option value="">--Chọn tình trạng--</option>
+                <option th:each="type:${listType}" th:value="${type.id}"
+                        th:text="${type.name}"></option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-success" value="Cập nhật">
+    </form>
+    <a class="btn btn-primary" style="margin: 10px 0;" th:href="@{/admin/dashboard}">Trở về trang quản trị</a>
+</div>
+
+
+<script th:src="@{/js/jquery-3.3.1.slim.min}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
