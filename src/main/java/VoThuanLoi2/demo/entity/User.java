@@ -8,11 +8,10 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Integer user_id;
     @Column
     private String username;
     @Column
