@@ -3,7 +3,7 @@ This project use Java Spring Boot to coding. Data in project save to MySQL, when
 ## Installation
 1. Clone this repo to local.
 2. Open MySQL and create database name 'bookstore'.
-3. Download file backup database and restore database. [Link download!](URL)
+3. Download file backup database and restore database. [Link download!](https://drive.google.com/file/d/1FmfaVNjSyLQGcXq3-FkO1_fItUrzOSBy/view?usp=sharing)
 4. Open file application.properties and type your account to login your MySQL (Username and password).
 5. Success install now you can run project.
 ## Account
